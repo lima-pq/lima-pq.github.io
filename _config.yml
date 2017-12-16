@@ -1,0 +1,18 @@
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely need to edit after that.
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'jekyll serve'. If you change this file, please restart the server process.
+
+# Site settings
+title: LIMA - A PQC Encryption Scheme
+email: nigel.paul.smart@gmail.com
+description: > # this means to ignore newlines until "baseurl:"
+   LIMA (LattIce MAthematics) is a set of "boring and simple" lattice-based public-key encryption and key encapsulation mechanisms, offering chosen plaintext security and chosen ciphertext security options. LIMA mixes conservative, standard and boring design choices with some efficiency improvements and flexibility. These factors are exhibited in its genesis: it is based on the ring variant of the LWE problem. We use the Fujisaki-Okamoto transform to obtain an IND-CCA secure public-key encryption scheme. Our IND-CCA key encapsulation mechanism (KEM) is obtained via a transform of Dent.
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://lima-pq.github.io" # the base hostname & protocol for your site
+github_username:  lima-pq
+
+# Build settings
+markdown: kramdown
