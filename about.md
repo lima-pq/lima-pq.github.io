@@ -4,6 +4,11 @@ title: About LIMA
 permalink: /about/
 ---
 
+Note: This is Version 1.1 of the LIMA specification which includes a number
+of optimizations and minor corrections over the first specification.
+We also include different parameter choices, which are enabled by 
+some of our minor modifications.
+
 We introduce LIMA (LattIce MAthematics), a set of lattice-based public-key encryption and key encapsulation mechanisms, offering chosen plaintext security and chosen ciphertext security options. LIMA mixes conservative, standard and boring design choices with some efficiency improvements and flexibility. These factors are exhibited in its genesis: it is based on the ring variant [<a href="#EC:LyuPeiReg10">EC:LyuPeiReg10</a>] of the LWE problem [<a href="#STOC:Regev05">STOC:Regev05</a>] and on the encryption construction in [<a href="#RSA:LinPei11">RSA:LinPei11</a>]. We use the Fujisaki-Okamoto transform [<a href="#PKC:FujOka99">PKC:FujOka99</a>] to obtain an IND-CCA secure public-key encryption scheme. Our IND-CCA key encapsulation mechanism (KEM) is obtained via a transform of Dent [<a href="#IMA:Dent03">IMA:Dent03</a>]. This provides improved communication efficiency over using our IND-CCA public-key encryption scheme directly as a KEM; we also give a tight security proof for our IND-CCA KEM.
 
 Thus our basic building blocks use highly respected and well studied cryptographic components. Our preference for “boring and simple” is illustrated by the fact that while our construction is efficient, other constructions such as [<a href="#EPRINT:BDKLLS17">EPRINT:BDKLLS17</a>] achieve higher encryption and decryption speeds. However, run times for lattice-based schemes are already generally faster than current public-key schemes and thus we view optimizing run times as being less important compared to simplicity.
@@ -48,14 +53,17 @@ Ignoring parameter sizes for the moment, this document therefore defines eight p
 
 The first two schemes in Table \[table-lima-schemes\] should not be used (without care) in any application. The third and fourth schemes should also be used with care, but are included here as they are mentioned in the NIST call as being potentially desirable in some key exchange applications.
 
-All the LIMA schemes are derived from a base encryption algorithm `EncCPASub` which can result in decryption failures. In particular `EncCPASub` could make a choice of randomness that produces in a ciphertext which results in a decryption failure (or even decrypts to the wrong message). This is a standard problem in lattice based schemes and can cause problems in operation and in security proofs. To avoid this issue, we then modify the base encryption algorithm `EncCPASub` so that it rejects any choice of randomness which *could* result in an eventual decryption failure. Thus, we apply rejection sampling at the encryption stage so as to remove the problem of decryption failures. By choosing our parameters carefully, we can make the probability that repeated sampling is needed during encryption relatively small, thus avoiding in almost all cases the need to repeat the encryption procedure. This results in a non-constant time encryption algorithm, though it will be constant time with high probability and will not leak any information about the message. We discuss this further below.
+All the LIMA schemes are derived from a base encryption algorithm `EncCPASub` which can result in decryption failures. In particular `EncCPASub` could make a choice of randomness that produces in a ciphertext which results in a decryption failure (or even decrypts to the wrong message). 
+This is a standard problem in lattice based schemes and can cause problems in operation and in security proofs. 
+Our parameters are chosen to ensure that this happens with negligible probability.
 
-We define six parameter sets to be used in conjunction with the eight different LIMA schemes. Two of these parameter sets are in the “power-of-two” setting and four in the “safe-prime” setting. This yields a total of 24 different schemes, with this flexibility enabling scaling to larger messages spaces and/or increased security levels. The six parameter sets are shown in the table below.
+We define six parameter sets to be used in conjunction with the eight different LIMA schemes. Two of these parameter sets are in the “power-of-two” setting and four in the “safe-prime” setting. This yields a total of 28 different schemes, with this flexibility enabling scaling to larger messages spaces and/or increased security levels. The seven parameter sets are shown in the table below.
 
 | Scheme      | $N$    | $q$        |
 | --------    | ------ | ---------- |
-| **LIMA-2p** | 1024   | 133121     |
-| **LIMA-2p** | 2048   | 184321     |
+| **LIMA-2p** |  512   | 18433      |
+| **LIMA-2p** | 1024   | 40961      |
+| **LIMA-2p** | 2048   | 40961      |
 | **LIMA-sp** | 1018   | 12521473   |
 | **LIMA-sp** | 1306   | 48181249   |
 | **LIMA-sp** | 1822   | 44802049   |
